@@ -18,7 +18,7 @@ def build_parser():
     )
     sub = p.add_subparsers(dest="command", required=True, metavar="command")
     for module in MODULES:
-        module.add_parser(sub)
+        module.register(sub)
 
     return p
 
