@@ -1,0 +1,9 @@
+services:
+  uma-sign:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: uma-sign:local
+    working_dir: /app
+    volumes:
+      - ./artifacts:/data
