@@ -2,6 +2,7 @@ import json
 import os
 import tempfile
 
+from internal.common.strict_json import loads
 from internal.manifest.serializer import _PACKAGE_PATTERN
 
 from .errors import FormatError, InputError
@@ -10,15 +11,6 @@ from .trust_store_structure import SCHEMA, TrustStore, TrustStoreKey, empty_stor
 
 _ROOT_FIELDS = {"schema", "keys"}
 _KEY_FIELDS = {"keyid", "algorithm", "public_key_pem", "packages"}
-
-
-def _reject_duplicate_keys(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise FormatError(f"duplicate field: {key}")
-        result[key] = value
-    return result
 
 
 def _require_fields(value, expected, location):
@@ -55,12 +47,7 @@ def parse_store(raw: bytes) -> TrustStore:
         text = raw.decode("utf-8")
     except UnicodeDecodeError as error:
         raise FormatError("trust store is not valid UTF-8") from error
-    try:
-        value = json.loads(text, object_pairs_hook=_reject_duplicate_keys)
-    except ValueError as error:
-        if isinstance(error, FormatError):
-            raise
-        raise FormatError(f"invalid JSON: {error}") from error
+    value = loads(text)
 
     _require_fields(value, _ROOT_FIELDS, "root")
     if value["schema"] != SCHEMA:
