@@ -28,8 +28,8 @@ def validate_manifest(m: ReleaseManifest) -> None:
 	if not isinstance(m, ReleaseManifest):
 		raise ManifestValidationError("manifest must be a ReleaseManifest")
 
-	if _require_string(m.schema, "schema") != "minisign-manifest/v1":
-		raise ManifestValidationError('schema must be "minisign-manifest/v1"')
+	if _require_string(m.schema, "schema") != "umasign-manifest/v1":
+		raise ManifestValidationError('schema must be "umasign-manifest/v1"')
 
 	package = _require_string(m.package, "package")
 	_require_pattern(package, _PACKAGE_PATTERN, "package")

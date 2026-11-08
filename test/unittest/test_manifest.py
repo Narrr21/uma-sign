@@ -18,7 +18,7 @@ SHA256 = "b" * 64
 @pytest.fixture
 def example_manifest():
     return ReleaseManifest(
-        schema="minisign-manifest/v1",
+        schema="umasign-manifest/v1",
         package="uma-sign",
         version="1.2.3-rc.1+build.5",
         algorithm="future-profile-unknown-to-this-parser",
@@ -37,7 +37,7 @@ def test_serialize_parse_serialize_round_trip(example_manifest):
 
 def test_spec_example_has_exact_field_order(example_manifest):
     assert serialize_manifest(example_manifest) == (
-        b'{"schema":"minisign-manifest/v1","package":"uma-sign",'
+        b'{"schema":"umasign-manifest/v1","package":"uma-sign",'
         b'"version":"1.2.3-rc.1+build.5",'
         b'"algorithm":"future-profile-unknown-to-this-parser",'
         b'"keyid":"' + KEY_ID.encode() + b'","artifact":{"name":"uma-sign.tar.gz",'
@@ -49,7 +49,7 @@ def test_manifest_builder_builds_from_file(tmp_path):
     artifact_path = tmp_path / "release.bin"
     artifact_path.write_bytes(b"abc")
     builder = ManifestBuilder(
-        "minisign-manifest/v1", "pkg", "1.0", "profile", KEY_ID
+        "umasign-manifest/v1", "pkg", "1.0", "profile", KEY_ID
     )
 
     manifest = builder.build_from_file(str(artifact_path))
@@ -62,8 +62,8 @@ def test_manifest_builder_builds_from_file(tmp_path):
 @pytest.mark.parametrize(
     "data",
     [
-        b'{"schema":"minisign-manifest/v1","schema":"minisign-manifest/v1"}',
-        b'{"schema":"minisign-manifest/v1","package":"pkg","version":"1",'
+        b'{"schema":"umasign-manifest/v1","schema":"umasign-manifest/v1"}',
+        b'{"schema":"umasign-manifest/v1","package":"pkg","version":"1",'
         b'"algorithm":"profile","keyid":"' + KEY_ID.encode()
         + b'","artifact":{"name":"file","size":0,"size":0,"sha256":"'
         + SHA256.encode() + b'"}}',
@@ -77,17 +77,17 @@ def test_duplicate_keys_are_rejected_at_every_object_level(data):
 @pytest.mark.parametrize(
     "data",
     [
-        b'{"schema":"minisign-manifest/v1"}',
+        b'{"schema":"umasign-manifest/v1"}',
         b'[]',
-        b'{"schema":"minisign-manifest/v1","package":"pkg","version":"1",'
+        b'{"schema":"umasign-manifest/v1","package":"pkg","version":"1",'
         b'"algorithm":"profile","keyid":"' + KEY_ID.encode()
         + b'","artifact":{"name":"file","size":0,"sha256":"'
         + SHA256.encode() + b'"},"extra":0}',
-        b'{"schema":"minisign-manifest/v1","package":"pkg","version":"1",'
+        b'{"schema":"umasign-manifest/v1","package":"pkg","version":"1",'
         b'"algorithm":"profile","keyid":"' + KEY_ID.encode()
         + b'","artifact":{"name":"file","size":0,"sha256":"'
         + SHA256.encode() + b'","extra":0}}',
-        b'{"schema":"minisign-manifest/v1","package":"pkg","version":"1",'
+        b'{"schema":"umasign-manifest/v1","package":"pkg","version":"1",'
         b'"algorithm":"profile","keyid":"' + KEY_ID.encode()
         + b'","artifact":{"name":"file","size":0}}',
     ],
@@ -148,8 +148,8 @@ def test_unicode_escape_is_valid_json_but_noncanonical(example_manifest):
 def test_wrong_field_order_is_noncanonical(example_manifest):
     raw = serialize_manifest(example_manifest)
     reordered = raw.replace(
-        b'{"schema":"minisign-manifest/v1","package":"uma-sign"',
-        b'{"package":"uma-sign","schema":"minisign-manifest/v1"',
+        b'{"schema":"umasign-manifest/v1","package":"uma-sign"',
+        b'{"package":"uma-sign","schema":"umasign-manifest/v1"',
     )
     assert parse_manifest(reordered) == example_manifest
     with pytest.raises(ManifestFormatError, match="non-canonical"):

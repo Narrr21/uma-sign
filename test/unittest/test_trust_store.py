@@ -39,7 +39,7 @@ def _entry(pem, packages=("pkg",)):
 
 
 def _raw(*entries):
-    return json.dumps({"schema": "minisign-trust/v1", "keys": list(entries)}).encode()
+    return json.dumps({"schema": "umasign-trust/v1", "keys": list(entries)}).encode()
 
 
 # Testing key_validation
@@ -72,7 +72,7 @@ def test_parse_valid(keys):
 
 def test_parse_duplicate_field():
     with pytest.raises(FormatError):
-        parse_store(b'{"schema":"minisign-trust/v1","schema":"minisign-trust/v1","keys":[]}')
+        parse_store(b'{"schema":"umasign-trust/v1","schema":"umasign-trust/v1","keys":[]}')
 
 
 def test_parse_extra_field(keys):

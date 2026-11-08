@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-SCHEMA = "minisign-trust/v1"
+SCHEMA = "umasign-trust/v1"
 
 
 @dataclass(frozen=True)

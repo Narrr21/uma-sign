@@ -9,7 +9,7 @@ from internal.manifest.builder import ManifestBuilder
 from internal.manifest.serializer import serialize_manifest
 
 builder = ManifestBuilder(
-	schema="minisign-manifest/v1",
+	schema="umasign-manifest/v1",
 	package="uma-sign",
 	version="1.2.3",
 	algorithm="ed25519",
