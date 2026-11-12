@@ -1,12 +1,15 @@
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-	PYTHONUNBUFFERED=1 \
-	PYTHONPATH=/app
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
 
 WORKDIR /app
 
 RUN useradd --create-home --uid 10001 appuser
+
+COPY --chown=appuser:appuser requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=appuser:appuser cmd/ ./cmd/
 COPY --chown=appuser:appuser internal/ ./internal/
