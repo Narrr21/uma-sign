@@ -8,9 +8,10 @@ if str(ROOT) not in sys.path:
 
 from internal.crypto import keygen
 from internal.crypto import sign
+from internal.trust import trust_store
 from internal.verifier import verify
 
-MODULES = (keygen, sign, verify)
+MODULES = (keygen, sign, trust_store, verify)
 
 
 def build_parser():

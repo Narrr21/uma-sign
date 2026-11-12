@@ -227,7 +227,7 @@ def register(subparsers):
     p.add_argument("--trust-store", metavar="TRUST.JSON")
     p.add_argument("--package")
     p.add_argument("--version")
-    p.add_argument("--json", action="store_true", help="keluaran JSON (Tabel 2.9)")
+    p.add_argument("--json", action="store_true", help="keluaran JSON")
     p.set_defaults(func=run)
 
 
