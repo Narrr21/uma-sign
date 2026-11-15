@@ -1,0 +1,49 @@
+site_name: uma-sign API
+site_description: Dokumentasi API modul internal umasign (tanda tangan dan verifikasi rilis).
+site_url: https://narrr21.github.io/uma-sign/
+repo_url: https://github.com/Narrr21/uma-sign
+repo_name: Narrr21/uma-sign
+edit_uri: ""
+exclude_docs: requirements.txt
+
+validation:
+  anchors: warn
+
+theme:
+  name: material
+  language: id
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Mode gelap
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Mode terang
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+nav:
+  - Beranda: index.md
+  - Status dan error: errors.md
+  - Referensi API:
+      - internal.crypto: api/crypto.md
+      - internal.manifest: api/manifest.md
+      - internal.bundle: api/bundle.md
+      - internal.trust: api/trust.md
+      - internal.verifier: api/verifier.md
+      - internal.common: api/common.md
