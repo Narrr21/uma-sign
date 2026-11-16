@@ -25,6 +25,13 @@ SCENARIO_DESCRIPTIONS = {
     "U05": "one signature bit flipped",
     "U06": "publisher key is not trusted",
     "U07": "key is not authorized for package",
+    "U08": "version differs from the manifest",
+    "U09": "artifact file renamed",
+    "U10": "malformed bundle or manifest",
+    "U11": "unsupported algorithm string",
+    "U12": "signed with an untrusted key of the same profile",
+    "U13": "bundle whitespace and field order changed",
+    "U14": "same manifest signed twice",
 }
 
 
@@ -283,4 +290,146 @@ def test_u07_key_allowed_only_for_other_package(make_env, keypairs, alg, allowed
 def test_u07_control_key_allowed_for_package_is_ok(make_env, keypairs, alg):
     env = make_env(alg)
     env.set_trust([(keypairs[alg], alg, ["other", PACKAGE])])
+    expect(env.verify(), "OK", 0)
+
+
+# U08: paket sesuai, versi berbeda dari manifest
+@pytest.mark.parametrize("alg", ALGS)
+@pytest.mark.parametrize("verify_version", ["1.0.1", "2.0.0", "1.0.0-rc1"])
+def test_u08_version_differs(make_env, alg, verify_version):
+    env = make_env(alg)
+    body = expect(env.verify(version=verify_version), "METADATA_MISMATCH", 1)
+    assert body["version"] == VERSION
+
+
+# U09: nama berkas artefak diubah, isi tetap
+@pytest.mark.parametrize("alg", ALGS)
+@pytest.mark.parametrize("new_name", ["app-1.0.1.tar.gz", "App-1.0.0.tar.gz", "app.tar.gz"])
+def test_u09_artifact_renamed(make_env, alg, new_name):
+    env = make_env(alg)
+    renamed = env.file.with_name(new_name)
+    env.file.rename(renamed)
+    assert renamed.read_bytes() == BASE
+    expect(env.verify(file=renamed), "METADATA_MISMATCH", 1)
+
+
+def _q(text):
+    return '"' + text + '"'
+
+
+def _bundle_json(manifest_value, signature_value):
+    return (
+        '{"schema":"umasign-bundle/v1","manifest_b64":' + manifest_value
+        + ',"signature_b64":' + signature_value + "}"
+    )
+
+
+U10_CASES = [
+    ("bundle_field_duplikat", lambda m, s: _bundle_json(
+        _q(b64(m)), _q(b64(s)) + ',"signature_b64":' + _q(b64(s)))),
+    ("manifest_field_duplikat", lambda m, s: _bundle_json(
+        _q(b64(m.replace(b'"package":"app",', b'"package":"app","package":"app",'))), _q(b64(s)))),
+    ("bundle_tipe_salah", lambda m, s: _bundle_json(_q(b64(m)), "12345")),
+    ("manifest_tipe_salah", lambda m, s: _bundle_json(
+        _q(b64(m.replace(b'"size":4096', b'"size":"4096"'))), _q(b64(s)))),
+    ("base64_karakter_asing", lambda m, s: _bundle_json(_q(b64(m)), _q("*" + b64(s)[1:]))),
+    ("base64_padding_salah", lambda m, s: _bundle_json(_q(b64(m)), _q(b64(s)[:-1]))),
+    ("base64_whitespace", lambda m, s: _bundle_json(_q(b64(m)), _q(b64(s)[:8] + " " + b64(s)[8:]))),
+    ("base64_url_safe", lambda m, s: _bundle_json(_q(b64(m)), _q("-_" + b64(s)[2:]))),
+    ("manifest_melebihi_16KiB", lambda m, s: _bundle_json(_q(b64(m + b" " * 16384)), _q(b64(s)))),
+]
+
+
+# U10: bundle atau manifest rusak, setiap kondisi diuji terpisah
+@pytest.mark.parametrize("alg", ALGS)
+@pytest.mark.parametrize("label,build", U10_CASES, ids=[c[0] for c in U10_CASES])
+def test_u10_malformed_input(make_env, alg, label, build):
+    env = make_env(alg)
+    original = env.bundle.read_text()
+    _, manifest, signature = env.read_bundle()
+    raw = build(manifest, signature)
+    assert raw != original
+    env.bundle.write_text(raw)
+    expect(env.verify(), "FORMAT_ERROR", 1)
+
+
+# U11: string algorithm tidak didukung, manifest tetap kanonik
+@pytest.mark.parametrize("alg", ALGS)
+@pytest.mark.parametrize("unsupported", ["rsa-pkcs1-sha256", "ecdsa-p384-sha384", "ED25519", "none"])
+def test_u11_unsupported_algorithm(make_env, alg, unsupported):
+    env = make_env(alg)
+    _, manifest, _ = env.read_bundle()
+    old = f'"algorithm":"{alg}"'.encode()
+    assert old in manifest
+    tampered = manifest.replace(old, f'"algorithm":"{unsupported}"'.encode())
+    assert json.dumps(json.loads(tampered), separators=(",", ":")).encode() == tampered
+    env.rewrite_bundle(manifest=tampered)
+    body = expect(env.verify(), "UNSUPPORTED_ALGORITHM", 1)
+    assert body["algorithm"] == unsupported
+
+
+# U12: ditandatangani kunci lain pada profil yang sama, kunci itu tidak ada di trust store
+@pytest.mark.parametrize("alg", ALGS)
+def test_u12_signed_with_untrusted_same_profile_key(make_env, other_keypairs, alg):
+    env = make_env(alg)
+    r = run(
+        "sign", "--file", env.file, "--package", PACKAGE, "--version", VERSION,
+        "--key", other_keypairs[alg]["private"], "--out", env.bundle,
+    )
+    assert r.returncode == 0, r.stderr
+    body = expect(env.verify(), "KEY_NOT_TRUSTED", 1)
+    assert body["keyid"] == other_keypairs[alg]["keyid"]
+    assert body["keyid"] != env.kp["keyid"]
+
+
+U13_LAYOUTS = [
+    ("urutan_terbalik", lambda b: json.dumps(dict(reversed(list(b.items()))))),
+    ("indentasi_4", lambda b: json.dumps(b, indent=4)),
+    ("satu_baris_rapat", lambda b: json.dumps(b, separators=(",", ":"))),
+    ("crlf_tab_dan_spasi", lambda b: (
+        '\r\n\t{ "signature_b64" :\t"' + b["signature_b64"] + '" ,\r\n'
+        '   "manifest_b64":"' + b["manifest_b64"] + '",\r\n'
+        '"schema"  :  "' + b["schema"] + '" }\r\n')),
+]
+
+
+# U13: whitespace dan urutan field bundle diubah, kedua string Base64 tetap
+@pytest.mark.parametrize("alg", ALGS)
+@pytest.mark.parametrize("label,layout", U13_LAYOUTS, ids=[c[0] for c in U13_LAYOUTS])
+def test_u13_bundle_layout_changed(make_env, alg, label, layout):
+    env = make_env(alg)
+    original, _, _ = env.read_bundle()
+    env.bundle.write_text(layout(original))
+    changed, _, _ = env.read_bundle()
+    assert changed["manifest_b64"] == original["manifest_b64"]
+    assert changed["signature_b64"] == original["signature_b64"]
+    expect(env.verify(), "OK", 0)
+
+
+# U14: manifest identik ditandatangani dua kali dengan kunci yang sama
+@pytest.mark.parametrize("alg", ALGS)
+def test_u14_sign_twice(make_env, alg):
+    env = make_env(alg)
+    first = env.bundle
+    second = env.root / "release-2.bundle.json"
+    r = run(
+        "sign", "--file", env.file, "--package", PACKAGE, "--version", VERSION,
+        "--key", env.kp["private"], "--out", second,
+    )
+    assert r.returncode == 0, r.stderr
+
+    b1, m1, s1 = env.read_bundle()
+    env.bundle = second
+    b2, m2, s2 = env.read_bundle()
+    assert m1 == m2
+    identical = s1 == s2
+    print(f"[U14] {alg}: manifest identik=True, tanda tangan identik={identical}, "
+          f"panjang={len(s1)} byte")
+    if alg == "ed25519":
+        assert identical
+    else:
+        assert not identical
+
+    expect(env.verify(), "OK", 0)
+    env.bundle = first
     expect(env.verify(), "OK", 0)
