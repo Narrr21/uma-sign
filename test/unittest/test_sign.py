@@ -9,7 +9,7 @@ import pytest
 from cryptography.hazmat.primitives.asymmetric.utils import encode_dss_signature
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 CLI = ROOT / "cmd" / "umasign" / "main.py"
 OPENSSL = shutil.which("openssl")
 

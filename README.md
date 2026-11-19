@@ -38,6 +38,32 @@ docker compose run --rm uma-sign --help
 
 Folder `./artifacts` di-*mount* ke `/data` di dalam kontainer.
 
+### Image di GitHub Container Registry
+
+Image juga tersedia di GitHub Container Registry (GHCR), jadi bisa dipakai tanpa build:
+
+```bash
+docker pull ghcr.io/narrr21/uma-sign:latest
+docker run --rm -v "$PWD/artifacts:/data" ghcr.io/narrr21/uma-sign:latest --help
+```
+
+Digest image `latest` yang diunggah:
+
+```
+ghcr.io/narrr21/uma-sign@sha256:573b5529c948f09a18da92256496c5a3e9d0ac701a4407edb1c0cd012f625700
+```
+
+Cara mengunggah image ke registry. Login memakai *personal access token* GitHub dengan scope `write:packages`:
+
+```bash
+docker login ghcr.io -u <username-github>
+docker compose build
+docker tag uma-sign:latest ghcr.io/narrr21/uma-sign:latest
+docker push ghcr.io/narrr21/uma-sign:latest
+```
+
+Baris terakhir keluaran `docker push` memuat digest image, misalnya `latest: digest: sha256:573b5529... size: 2407`.
+
 ## Penggunaan CLI
 
 Contoh di bawah adalah satu alur lengkap: buat kunci, tanda tangani, percayai kunci, lalu verifikasi.
@@ -255,7 +281,17 @@ docs/                      sumber situs dokumentasi API
 
 ```bash
 pip install -r requirements.txt
-python -m pytest test -q
+python -m pytest test -q                   # unit test
+python -m pytest test/tes_U01_U14.py -q    # skenario U01–U14
+```
+
+Nama berkas skenario tidak diawali `test_`, jadi tidak ikut terambil oleh `python -m pytest test` dan perlu dijalankan dengan path-nya langsung.
+
+Dua skrip lain di `test/` membuat bukti pengujian untuk laporan:
+
+```bash
+python test/report_scenarios.py --out hasil_skenario --zip   # keluaran CLI tiap kasus U01–U14
+python test/benchmark.py --out hasil_benchmark              # waktu sign dan verify
 ```
 
 ## Dokumentasi API
