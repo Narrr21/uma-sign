@@ -1,0 +1,39 @@
+{
+  "skenario": "U04",
+  "deskripsi": "Ubah versi pada manifest dengan serialisasi kanonik, gunakan tanda tangan lama.",
+  "variasi": "verify_versi_baru",
+  "algoritma": "ecdsa-p256-sha256",
+  "status_diharapkan": "INVALID_SIGNATURE",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "INVALID_SIGNATURE",
+    "message": "signature does not match the manifest",
+    "algorithm": "ecdsa-p256-sha256",
+    "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+    "package": "app",
+    "version": "1.0.1"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U04/ecdsa-p256-sha256__verify_versi_baru/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U04/ecdsa-p256-sha256__verify_versi_baru/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U04/ecdsa-p256-sha256__verify_versi_baru/app-1.0.0.tar.gz --bundle U04/ecdsa-p256-sha256__verify_versi_baru/bundle.json --trust-store U04/ecdsa-p256-sha256__verify_versi_baru/trust.json --package app --version 1.0.1 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "INVALID_SIGNATURE",
+        "message": "signature does not match the manifest",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+        "package": "app",
+        "version": "1.0.1"
+      }
+    }
+  ]
+}

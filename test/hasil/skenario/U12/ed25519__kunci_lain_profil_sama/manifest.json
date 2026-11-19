@@ -1,0 +1,1 @@
+{"schema":"umasign-manifest/v1","package":"app","version":"1.0.0","algorithm":"ed25519","keyid":"c89c41cb713404e1acd048ca594e414e68f6e4f690f9a7acb7aa8fe5b16a429b","artifact":{"name":"app-1.0.0.tar.gz","size":4096,"sha256":"c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"}}

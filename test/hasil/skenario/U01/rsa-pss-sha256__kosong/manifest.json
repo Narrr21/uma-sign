@@ -1,0 +1,1 @@
+{"schema":"umasign-manifest/v1","package":"app","version":"1.0.0","algorithm":"rsa-pss-sha256","keyid":"9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8","artifact":{"name":"kosong.dat","size":0,"sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}}

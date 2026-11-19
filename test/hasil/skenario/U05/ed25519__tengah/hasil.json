@@ -1,0 +1,39 @@
+{
+  "skenario": "U05",
+  "deskripsi": "Ubah satu bit tanda tangan, panjang dan Base64 tetap valid.",
+  "variasi": "tengah",
+  "algoritma": "ed25519",
+  "status_diharapkan": "INVALID_SIGNATURE",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "INVALID_SIGNATURE",
+    "message": "signature does not match the manifest",
+    "algorithm": "ed25519",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U05/ed25519__tengah/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U05/ed25519__tengah/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U05/ed25519__tengah/app-1.0.0.tar.gz --bundle U05/ed25519__tengah/bundle.json --trust-store U05/ed25519__tengah/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "INVALID_SIGNATURE",
+        "message": "signature does not match the manifest",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

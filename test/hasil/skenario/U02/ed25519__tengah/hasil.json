@@ -1,0 +1,39 @@
+{
+  "skenario": "U02",
+  "deskripsi": "Ubah satu byte artefak tanpa mengubah ukuran atau nama berkas.",
+  "variasi": "tengah",
+  "algoritma": "ed25519",
+  "status_diharapkan": "ARTIFACT_MISMATCH",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "ARTIFACT_MISMATCH",
+    "message": "artifact SHA-256 differs from the manifest",
+    "algorithm": "ed25519",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U02/ed25519__tengah/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U02/ed25519__tengah/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U02/ed25519__tengah/app-1.0.0.tar.gz --bundle U02/ed25519__tengah/bundle.json --trust-store U02/ed25519__tengah/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "ARTIFACT_MISMATCH",
+        "message": "artifact SHA-256 differs from the manifest",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "skenario": "U12",
+  "deskripsi": "Ditandatangani kunci lain pada profil yang sama; kunci itu tidak ada di trust store.",
+  "variasi": "kunci_lain_profil_sama",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "KEY_NOT_TRUSTED",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "KEY_NOT_TRUSTED",
+    "message": "keyid is not in the trust store",
+    "algorithm": "rsa-pss-sha256",
+    "keyid": "de23071f4031275e8ec0cc02e474cea31ed1c6bad6aa2a3c58dadf154f216a07",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U12/rsa-pss-sha256__kunci_lain_profil_sama/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U12/rsa-pss-sha256__kunci_lain_profil_sama/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign sign --file U12/rsa-pss-sha256__kunci_lain_profil_sama/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/lain/rsa-pss-sha256.key.pem --out U12/rsa-pss-sha256__kunci_lain_profil_sama/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U12/rsa-pss-sha256__kunci_lain_profil_sama/app-1.0.0.tar.gz --bundle U12/rsa-pss-sha256__kunci_lain_profil_sama/bundle.json --trust-store U12/rsa-pss-sha256__kunci_lain_profil_sama/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "KEY_NOT_TRUSTED",
+        "message": "keyid is not in the trust store",
+        "algorithm": "rsa-pss-sha256",
+        "keyid": "de23071f4031275e8ec0cc02e474cea31ed1c6bad6aa2a3c58dadf154f216a07",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

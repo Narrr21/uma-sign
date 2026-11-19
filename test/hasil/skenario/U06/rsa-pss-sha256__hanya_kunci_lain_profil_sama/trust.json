@@ -1,0 +1,13 @@
+{
+  "schema": "umasign-trust/v1",
+  "keys": [
+    {
+      "keyid": "de23071f4031275e8ec0cc02e474cea31ed1c6bad6aa2a3c58dadf154f216a07",
+      "algorithm": "rsa-pss-sha256",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAp3sStLtXbRET9s44w+oK\nT62Mq1Z8HP0vU5JGyqiPxvEwI/EDIX4CK4vGy2nU7QwXTBWOfMEvQZlwsJLx5+kq\naxmRQK3z4SZhPLm9PFBcS08gHAOPwolMjt8XlIr6H1x7cei7UHEOQ6Xk2U19oRrf\nk6Wqru5JvFj4gSEXUmgVQHWNNcN22McFsSmG4Bs9oNerHI4g4OHJwFtS507makzG\nc792F8vGvrncd0MafNPK7CDXAUyjsWUHFuxYFo4VslLh2itw7K0G2KuKctIsAwPi\nU70my7/efv1xWVWpQ64kcd8HHD2dQAgCIWP+P0qQTyzUUeF4QFSMOvUyeS4l8TIM\no7TYyFxs9X5HTZhstBWQ+p6WRHnWIvXrX9q4yMSz9IXGtE7jV//CG2J5ljratkFH\n2J5VEND/xiQNHOkOgOhWUUi9oC+Tja1P7tW2x2kUa4UT+WpQ7Ob9Jyp4NSfz9ww0\nOY0b+qs1JxH7WOi6Oa7Ky65PNpYfvC6WaJ8o5lEFrs0zAgMBAAE=\n-----END PUBLIC KEY-----\n",
+      "packages": [
+        "app"
+      ]
+    }
+  ]
+}

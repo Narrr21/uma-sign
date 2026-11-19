@@ -1,0 +1,39 @@
+{
+  "skenario": "U01",
+  "deskripsi": "Tandatangani dan verifikasi berkas teks, biner, dan kosong dengan kunci dan metadata yang sesuai.",
+  "variasi": "teks",
+  "algoritma": "ed25519",
+  "status_diharapkan": "OK",
+  "exit_diharapkan": 0,
+  "exit": 0,
+  "keluaran_verify": {
+    "valid": true,
+    "status": "OK",
+    "message": "all checks passed",
+    "algorithm": "ed25519",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U01/ed25519__teks/catatan-rilis.txt --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U01/ed25519__teks/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U01/ed25519__teks/catatan-rilis.txt --bundle U01/ed25519__teks/bundle.json --trust-store U01/ed25519__teks/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

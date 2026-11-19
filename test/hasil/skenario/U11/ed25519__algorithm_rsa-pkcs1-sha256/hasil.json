@@ -1,0 +1,39 @@
+{
+  "skenario": "U11",
+  "deskripsi": "String algorithm yang tidak didukung pada manifest.",
+  "variasi": "algorithm_rsa-pkcs1-sha256",
+  "algoritma": "ed25519",
+  "status_diharapkan": "UNSUPPORTED_ALGORITHM",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "UNSUPPORTED_ALGORITHM",
+    "message": "unsupported algorithm: rsa-pkcs1-sha256",
+    "algorithm": "rsa-pkcs1-sha256",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U11/ed25519__algorithm_rsa-pkcs1-sha256/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U11/ed25519__algorithm_rsa-pkcs1-sha256/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U11/ed25519__algorithm_rsa-pkcs1-sha256/app-1.0.0.tar.gz --bundle U11/ed25519__algorithm_rsa-pkcs1-sha256/bundle.json --trust-store U11/ed25519__algorithm_rsa-pkcs1-sha256/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "UNSUPPORTED_ALGORITHM",
+        "message": "unsupported algorithm: rsa-pkcs1-sha256",
+        "algorithm": "rsa-pkcs1-sha256",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

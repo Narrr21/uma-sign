@@ -1,0 +1,39 @@
+{
+  "skenario": "U10",
+  "deskripsi": "Field duplikat, tipe salah, Base64 tidak valid, dan manifest melebihi batas ukuran (masing-masing terpisah).",
+  "variasi": "base64_karakter_asing",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "FORMAT_ERROR",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "FORMAT_ERROR",
+    "message": "bundle: invalid Base64: Only base64 data is allowed",
+    "algorithm": null,
+    "keyid": null,
+    "package": null,
+    "version": null
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U10/rsa-pss-sha256__base64_karakter_asing/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U10/rsa-pss-sha256__base64_karakter_asing/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U10/rsa-pss-sha256__base64_karakter_asing/app-1.0.0.tar.gz --bundle U10/rsa-pss-sha256__base64_karakter_asing/bundle.json --trust-store U10/rsa-pss-sha256__base64_karakter_asing/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "FORMAT_ERROR",
+        "message": "bundle: invalid Base64: Only base64 data is allowed",
+        "algorithm": null,
+        "keyid": null,
+        "package": null,
+        "version": null
+      }
+    }
+  ]
+}

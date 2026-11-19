@@ -1,0 +1,1 @@
+{"schema":"umasign-manifest/v1","package":"app","version":"1.0.0","algorithm":"rsa-pss-sha256","keyid":"9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8","artifact":{"name":"app.bin","size":16384,"sha256":"a1f259d4365ed4320c377ce26f5c8c56dcdc9a89e7b641bfd8eabfbbeac86654"}}

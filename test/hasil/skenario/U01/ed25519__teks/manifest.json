@@ -1,0 +1,1 @@
+{"schema":"umasign-manifest/v1","package":"app","version":"1.0.0","algorithm":"ed25519","keyid":"b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5","artifact":{"name":"catatan-rilis.txt","size":28,"sha256":"22de826899bb510b4a6d2e85032673be706aaf754b94cd50abbd41e668abeddc"}}

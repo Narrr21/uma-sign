@@ -1,0 +1,39 @@
+{
+  "skenario": "U01",
+  "deskripsi": "Tandatangani dan verifikasi berkas teks, biner, dan kosong dengan kunci dan metadata yang sesuai.",
+  "variasi": "kosong",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "OK",
+  "exit_diharapkan": 0,
+  "exit": 0,
+  "keluaran_verify": {
+    "valid": true,
+    "status": "OK",
+    "message": "all checks passed",
+    "algorithm": "rsa-pss-sha256",
+    "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U01/rsa-pss-sha256__kosong/kosong.dat --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U01/rsa-pss-sha256__kosong/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U01/rsa-pss-sha256__kosong/kosong.dat --bundle U01/rsa-pss-sha256__kosong/bundle.json --trust-store U01/rsa-pss-sha256__kosong/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "rsa-pss-sha256",
+        "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

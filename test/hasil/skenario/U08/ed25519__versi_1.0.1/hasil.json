@@ -1,0 +1,39 @@
+{
+  "skenario": "U08",
+  "deskripsi": "Bundle sah, paket sesuai, versi berbeda dari manifest.",
+  "variasi": "versi_1.0.1",
+  "algoritma": "ed25519",
+  "status_diharapkan": "METADATA_MISMATCH",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "METADATA_MISMATCH",
+    "message": "version differs from the manifest",
+    "algorithm": "ed25519",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U08/ed25519__versi_1.0.1/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U08/ed25519__versi_1.0.1/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U08/ed25519__versi_1.0.1/app-1.0.0.tar.gz --bundle U08/ed25519__versi_1.0.1/bundle.json --trust-store U08/ed25519__versi_1.0.1/trust.json --package app --version 1.0.1 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "METADATA_MISMATCH",
+        "message": "version differs from the manifest",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

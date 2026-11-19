@@ -1,0 +1,39 @@
+{
+  "skenario": "U08",
+  "deskripsi": "Bundle sah, paket sesuai, versi berbeda dari manifest.",
+  "variasi": "versi_2.0.0",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "METADATA_MISMATCH",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "METADATA_MISMATCH",
+    "message": "version differs from the manifest",
+    "algorithm": "rsa-pss-sha256",
+    "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U08/rsa-pss-sha256__versi_2.0.0/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U08/rsa-pss-sha256__versi_2.0.0/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U08/rsa-pss-sha256__versi_2.0.0/app-1.0.0.tar.gz --bundle U08/rsa-pss-sha256__versi_2.0.0/bundle.json --trust-store U08/rsa-pss-sha256__versi_2.0.0/trust.json --package app --version 2.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "METADATA_MISMATCH",
+        "message": "version differs from the manifest",
+        "algorithm": "rsa-pss-sha256",
+        "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

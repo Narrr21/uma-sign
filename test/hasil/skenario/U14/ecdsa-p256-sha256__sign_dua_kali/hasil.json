@@ -1,0 +1,67 @@
+{
+  "skenario": "U14",
+  "deskripsi": "Manifest identik ditandatangani dua kali dengan kunci yang sama.",
+  "variasi": "sign_dua_kali",
+  "algoritma": "ecdsa-p256-sha256",
+  "status_diharapkan": "OK",
+  "exit_diharapkan": 0,
+  "exit": 0,
+  "keluaran_verify": {
+    "valid": true,
+    "status": "OK",
+    "message": "all checks passed",
+    "algorithm": "ecdsa-p256-sha256",
+    "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U14/ecdsa-p256-sha256__sign_dua_kali/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U14/ecdsa-p256-sha256__sign_dua_kali/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign sign --file U14/ecdsa-p256-sha256__sign_dua_kali/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U14/ecdsa-p256-sha256__sign_dua_kali/bundle-2.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U14/ecdsa-p256-sha256__sign_dua_kali/app-1.0.0.tar.gz --bundle U14/ecdsa-p256-sha256__sign_dua_kali/bundle.json --trust-store U14/ecdsa-p256-sha256__sign_dua_kali/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "perintah": "umasign verify --file U14/ecdsa-p256-sha256__sign_dua_kali/app-1.0.0.tar.gz --bundle U14/ecdsa-p256-sha256__sign_dua_kali/bundle-2.json --trust-store U14/ecdsa-p256-sha256__sign_dua_kali/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "u14": {
+    "manifest_identik": true,
+    "tanda_tangan_identik": false,
+    "signature_1_hex": "413b2f2dec1f233d5fd1445f8f2810697d1e93dd04dff02080c6ee4e922e3b004a97b17695343eb8b45bf6d42881f7782f3ba534a2409d961886235bbb257a25",
+    "signature_2_hex": "dd7c726fc451498b8e014939261f59b70f9c35d5956061a3b97af4097c956a5e49f077241ccbeae72d831fc8ce5b5d9d47b8eeb4b41b26a906267855ce5cec55",
+    "verify_bundle_2": {
+      "exit": 0,
+      "status": "OK"
+    }
+  }
+}

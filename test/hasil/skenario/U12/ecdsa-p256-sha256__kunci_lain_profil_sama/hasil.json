@@ -1,0 +1,44 @@
+{
+  "skenario": "U12",
+  "deskripsi": "Ditandatangani kunci lain pada profil yang sama; kunci itu tidak ada di trust store.",
+  "variasi": "kunci_lain_profil_sama",
+  "algoritma": "ecdsa-p256-sha256",
+  "status_diharapkan": "KEY_NOT_TRUSTED",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "KEY_NOT_TRUSTED",
+    "message": "keyid is not in the trust store",
+    "algorithm": "ecdsa-p256-sha256",
+    "keyid": "554627cf8c7bbd7afb9ab6efcd3f05833167b72e5c2ebb101f30ef89d7834798",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U12/ecdsa-p256-sha256__kunci_lain_profil_sama/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U12/ecdsa-p256-sha256__kunci_lain_profil_sama/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign sign --file U12/ecdsa-p256-sha256__kunci_lain_profil_sama/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/lain/ecdsa-p256-sha256.key.pem --out U12/ecdsa-p256-sha256__kunci_lain_profil_sama/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U12/ecdsa-p256-sha256__kunci_lain_profil_sama/app-1.0.0.tar.gz --bundle U12/ecdsa-p256-sha256__kunci_lain_profil_sama/bundle.json --trust-store U12/ecdsa-p256-sha256__kunci_lain_profil_sama/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "KEY_NOT_TRUSTED",
+        "message": "keyid is not in the trust store",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "554627cf8c7bbd7afb9ab6efcd3f05833167b72e5c2ebb101f30ef89d7834798",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

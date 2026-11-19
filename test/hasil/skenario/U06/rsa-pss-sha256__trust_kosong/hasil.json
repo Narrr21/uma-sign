@@ -1,0 +1,39 @@
+{
+  "skenario": "U06",
+  "deskripsi": "Trust store kosong atau kunci penerbit tidak ada di trust store.",
+  "variasi": "trust_kosong",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "KEY_NOT_TRUSTED",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "KEY_NOT_TRUSTED",
+    "message": "keyid is not in the trust store",
+    "algorithm": "rsa-pss-sha256",
+    "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U06/rsa-pss-sha256__trust_kosong/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U06/rsa-pss-sha256__trust_kosong/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U06/rsa-pss-sha256__trust_kosong/app-1.0.0.tar.gz --bundle U06/rsa-pss-sha256__trust_kosong/bundle.json --trust-store U06/rsa-pss-sha256__trust_kosong/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "KEY_NOT_TRUSTED",
+        "message": "keyid is not in the trust store",
+        "algorithm": "rsa-pss-sha256",
+        "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

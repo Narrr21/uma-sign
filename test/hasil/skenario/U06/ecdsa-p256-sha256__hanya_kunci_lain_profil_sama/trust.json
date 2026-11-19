@@ -1,0 +1,13 @@
+{
+  "schema": "umasign-trust/v1",
+  "keys": [
+    {
+      "keyid": "554627cf8c7bbd7afb9ab6efcd3f05833167b72e5c2ebb101f30ef89d7834798",
+      "algorithm": "ecdsa-p256-sha256",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtvLw8dLydSeQkn0egky8gJQIYxNx\nYxj1vkuuBjLZrpYTAMLSDfgA7Az79jOJvMjVxBa6aUxsyAH483o0PR3u1Q==\n-----END PUBLIC KEY-----\n",
+      "packages": [
+        "app"
+      ]
+    }
+  ]
+}

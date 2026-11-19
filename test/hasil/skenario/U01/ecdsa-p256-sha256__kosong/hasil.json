@@ -1,0 +1,39 @@
+{
+  "skenario": "U01",
+  "deskripsi": "Tandatangani dan verifikasi berkas teks, biner, dan kosong dengan kunci dan metadata yang sesuai.",
+  "variasi": "kosong",
+  "algoritma": "ecdsa-p256-sha256",
+  "status_diharapkan": "OK",
+  "exit_diharapkan": 0,
+  "exit": 0,
+  "keluaran_verify": {
+    "valid": true,
+    "status": "OK",
+    "message": "all checks passed",
+    "algorithm": "ecdsa-p256-sha256",
+    "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U01/ecdsa-p256-sha256__kosong/kosong.dat --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U01/ecdsa-p256-sha256__kosong/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U01/ecdsa-p256-sha256__kosong/kosong.dat --bundle U01/ecdsa-p256-sha256__kosong/bundle.json --trust-store U01/ecdsa-p256-sha256__kosong/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

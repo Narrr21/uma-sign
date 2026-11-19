@@ -1,0 +1,39 @@
+{
+  "skenario": "U13",
+  "deskripsi": "Whitespace dan urutan field bundle diubah, kedua string Base64 tetap.",
+  "variasi": "satu_baris_rapat",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "OK",
+  "exit_diharapkan": 0,
+  "exit": 0,
+  "keluaran_verify": {
+    "valid": true,
+    "status": "OK",
+    "message": "all checks passed",
+    "algorithm": "rsa-pss-sha256",
+    "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U13/rsa-pss-sha256__satu_baris_rapat/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U13/rsa-pss-sha256__satu_baris_rapat/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U13/rsa-pss-sha256__satu_baris_rapat/app-1.0.0.tar.gz --bundle U13/rsa-pss-sha256__satu_baris_rapat/bundle.json --trust-store U13/rsa-pss-sha256__satu_baris_rapat/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "rsa-pss-sha256",
+        "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

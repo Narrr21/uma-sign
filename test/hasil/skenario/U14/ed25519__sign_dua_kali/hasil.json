@@ -1,0 +1,67 @@
+{
+  "skenario": "U14",
+  "deskripsi": "Manifest identik ditandatangani dua kali dengan kunci yang sama.",
+  "variasi": "sign_dua_kali",
+  "algoritma": "ed25519",
+  "status_diharapkan": "OK",
+  "exit_diharapkan": 0,
+  "exit": 0,
+  "keluaran_verify": {
+    "valid": true,
+    "status": "OK",
+    "message": "all checks passed",
+    "algorithm": "ed25519",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U14/ed25519__sign_dua_kali/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U14/ed25519__sign_dua_kali/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign sign --file U14/ed25519__sign_dua_kali/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U14/ed25519__sign_dua_kali/bundle-2.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U14/ed25519__sign_dua_kali/app-1.0.0.tar.gz --bundle U14/ed25519__sign_dua_kali/bundle.json --trust-store U14/ed25519__sign_dua_kali/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "perintah": "umasign verify --file U14/ed25519__sign_dua_kali/app-1.0.0.tar.gz --bundle U14/ed25519__sign_dua_kali/bundle-2.json --trust-store U14/ed25519__sign_dua_kali/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "u14": {
+    "manifest_identik": true,
+    "tanda_tangan_identik": true,
+    "signature_1_hex": "75794c74e8156533748df82b29c8cef569bba3d0762ca88ad6985603199dd6e5b4bf40eafaf1acb96489d4fcb46f935475b879a2be90222f9852cc8ef7d7a606",
+    "signature_2_hex": "75794c74e8156533748df82b29c8cef569bba3d0762ca88ad6985603199dd6e5b4bf40eafaf1acb96489d4fcb46f935475b879a2be90222f9852cc8ef7d7a606",
+    "verify_bundle_2": {
+      "exit": 0,
+      "status": "OK"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "waktu": "2026-11-16 07:02:56",
+  "python": "3.11.9",
+  "cryptography": "50.0.2",
+  "openssl": "OpenSSL 4.0.3 29 Sep 2026",
+  "os": "Windows-10-10.0.26300-SP0",
+  "cpu": "12th Gen Intel(R) Core(TM) i5-12450H",
+  "logical_cpus": 12
+}

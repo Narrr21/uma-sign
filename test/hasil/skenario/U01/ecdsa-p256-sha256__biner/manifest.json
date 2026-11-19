@@ -1,0 +1,1 @@
+{"schema":"umasign-manifest/v1","package":"app","version":"1.0.0","algorithm":"ecdsa-p256-sha256","keyid":"91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647","artifact":{"name":"app.bin","size":16384,"sha256":"a1f259d4365ed4320c377ce26f5c8c56dcdc9a89e7b641bfd8eabfbbeac86654"}}

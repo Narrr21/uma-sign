@@ -1,0 +1,39 @@
+{
+  "skenario": "U04",
+  "deskripsi": "Ubah versi pada manifest dengan serialisasi kanonik, gunakan tanda tangan lama.",
+  "variasi": "verify_versi_lama",
+  "algoritma": "ed25519",
+  "status_diharapkan": "INVALID_SIGNATURE",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "INVALID_SIGNATURE",
+    "message": "signature does not match the manifest",
+    "algorithm": "ed25519",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.1"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U04/ed25519__verify_versi_lama/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U04/ed25519__verify_versi_lama/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U04/ed25519__verify_versi_lama/app-1.0.0.tar.gz --bundle U04/ed25519__verify_versi_lama/bundle.json --trust-store U04/ed25519__verify_versi_lama/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "INVALID_SIGNATURE",
+        "message": "signature does not match the manifest",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.1"
+      }
+    }
+  ]
+}

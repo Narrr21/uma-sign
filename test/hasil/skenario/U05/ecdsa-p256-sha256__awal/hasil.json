@@ -1,0 +1,39 @@
+{
+  "skenario": "U05",
+  "deskripsi": "Ubah satu bit tanda tangan, panjang dan Base64 tetap valid.",
+  "variasi": "awal",
+  "algoritma": "ecdsa-p256-sha256",
+  "status_diharapkan": "INVALID_SIGNATURE",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "INVALID_SIGNATURE",
+    "message": "signature does not match the manifest",
+    "algorithm": "ecdsa-p256-sha256",
+    "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U05/ecdsa-p256-sha256__awal/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U05/ecdsa-p256-sha256__awal/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U05/ecdsa-p256-sha256__awal/app-1.0.0.tar.gz --bundle U05/ecdsa-p256-sha256__awal/bundle.json --trust-store U05/ecdsa-p256-sha256__awal/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "INVALID_SIGNATURE",
+        "message": "signature does not match the manifest",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

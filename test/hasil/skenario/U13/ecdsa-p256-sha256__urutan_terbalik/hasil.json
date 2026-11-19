@@ -1,0 +1,39 @@
+{
+  "skenario": "U13",
+  "deskripsi": "Whitespace dan urutan field bundle diubah, kedua string Base64 tetap.",
+  "variasi": "urutan_terbalik",
+  "algoritma": "ecdsa-p256-sha256",
+  "status_diharapkan": "OK",
+  "exit_diharapkan": 0,
+  "exit": 0,
+  "keluaran_verify": {
+    "valid": true,
+    "status": "OK",
+    "message": "all checks passed",
+    "algorithm": "ecdsa-p256-sha256",
+    "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U13/ecdsa-p256-sha256__urutan_terbalik/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U13/ecdsa-p256-sha256__urutan_terbalik/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U13/ecdsa-p256-sha256__urutan_terbalik/app-1.0.0.tar.gz --bundle U13/ecdsa-p256-sha256__urutan_terbalik/bundle.json --trust-store U13/ecdsa-p256-sha256__urutan_terbalik/trust.json --package app --version 1.0.0 --json",
+      "exit": 0,
+      "keluaran": {
+        "valid": true,
+        "status": "OK",
+        "message": "all checks passed",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

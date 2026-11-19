@@ -1,0 +1,39 @@
+{
+  "skenario": "U06",
+  "deskripsi": "Trust store kosong atau kunci penerbit tidak ada di trust store.",
+  "variasi": "trust_kosong",
+  "algoritma": "ed25519",
+  "status_diharapkan": "KEY_NOT_TRUSTED",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "KEY_NOT_TRUSTED",
+    "message": "keyid is not in the trust store",
+    "algorithm": "ed25519",
+    "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U06/ed25519__trust_kosong/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ed25519.key.pem --out U06/ed25519__trust_kosong/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U06/ed25519__trust_kosong/app-1.0.0.tar.gz --bundle U06/ed25519__trust_kosong/bundle.json --trust-store U06/ed25519__trust_kosong/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "KEY_NOT_TRUSTED",
+        "message": "keyid is not in the trust store",
+        "algorithm": "ed25519",
+        "keyid": "b6761a99b18fca918b86a02f798b8bfbd6af6b6ac78d3f2b1a71cf5796db58d5",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

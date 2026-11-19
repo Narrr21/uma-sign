@@ -1,0 +1,39 @@
+{
+  "skenario": "U09",
+  "deskripsi": "Nama berkas artefak diubah tanpa mengubah isinya.",
+  "variasi": "nama_App-1.0.0.tar.gz",
+  "algoritma": "ecdsa-p256-sha256",
+  "status_diharapkan": "METADATA_MISMATCH",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "METADATA_MISMATCH",
+    "message": "artifact name differs from the file name",
+    "algorithm": "ecdsa-p256-sha256",
+    "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U09/ecdsa-p256-sha256__nama_App-1.0.0.tar.gz/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/ecdsa-p256-sha256.key.pem --out U09/ecdsa-p256-sha256__nama_App-1.0.0.tar.gz/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U09/ecdsa-p256-sha256__nama_App-1.0.0.tar.gz/App-1.0.0.tar.gz --bundle U09/ecdsa-p256-sha256__nama_App-1.0.0.tar.gz/bundle.json --trust-store U09/ecdsa-p256-sha256__nama_App-1.0.0.tar.gz/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "METADATA_MISMATCH",
+        "message": "artifact name differs from the file name",
+        "algorithm": "ecdsa-p256-sha256",
+        "keyid": "91d130517117762870c501342a985abbb54035e432f538e2967f458ab4fe5647",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

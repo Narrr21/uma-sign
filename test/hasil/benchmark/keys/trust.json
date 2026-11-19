@@ -1,0 +1,29 @@
+{
+  "schema": "umasign-trust/v1",
+  "keys": [
+    {
+      "keyid": "38071633b82dc763ef52f70261be4112edc9f4b2c507c473c490a57982c88abf",
+      "algorithm": "rsa-pss-sha256",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEApT9/R4g/wgRou/lb9pKC\n5sIY6Y85WcR3ORiEvwM4FmuAqeJyEZOGW9Wyoz0HA3oLRrMwmfMQOBEEl9VAiT/U\nxsc8UE/HUfWAXjzIQtfxaEOemAebMyVAIrr67X7Ira5PmQCb4rVTloydayTI0dzn\nF/cqCiwW5qEUcBf9OyhD6EUMjB6EIE/o9QvZ6wHyb3d5BfQytt+Pl6JDuPkCbb+e\nPArgWBqlU8at1fNmuCCvn34AUnoNfYrk3/swk/wCQWqA3ldSEqmhSVc2ZPUEIxT1\nH5OeqQTtPrbk9y51Z02mtM0gazciAi/LVe6G2DZsdBkwG+iWdCupxW640RLuf6wl\nfEWjip7NSPBOqhU+4QN/RYgaYsjYLUFSJWO+k1ZFVZpg1ECkDPQIW0tsBu8saOrV\nJaLD8lnYK839eh4G3TgsrSu0kV8uQW0BnKXeo1JGPaUW8mDijbJzzZjAuzvcxrDw\nK2whTBGKKGvPXaAU+wHmJRRw7hejik57e4RiH38Ulm29AgMBAAE=\n-----END PUBLIC KEY-----\n",
+      "packages": [
+        "bench"
+      ]
+    },
+    {
+      "keyid": "d489c5a46cf7cf39feab48fd722cf8e11fa53597d57ddfc317fef21a6501cbda",
+      "algorithm": "ecdsa-p256-sha256",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEL+XkuWeOEZ1eEPAZDwv2u/Ne6TwZ\nFP9NqQjzk/S/b30b39Sxi1Pe3Bnfs2pWA6OvQsyqEvwHLhILA4+3MJwpnQ==\n-----END PUBLIC KEY-----\n",
+      "packages": [
+        "bench"
+      ]
+    },
+    {
+      "keyid": "675273850171d43a70aad6fe319be17252afa1982e8ad8a1d5c48366ccd9256a",
+      "algorithm": "ed25519",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAR1Ueo4hxKjctSzlxdRSQE4iE6Pct0fYqOlCONc6o6Z0=\n-----END PUBLIC KEY-----\n",
+      "packages": [
+        "bench"
+      ]
+    }
+  ]
+}

@@ -6,9 +6,25 @@ Tiga profil algoritma didukung: **RSA-PSS 3072 / SHA-256**, **ECDSA P-256 / SHA-
 
 **Dokumentasi API:** https://rafizan46.github.io/uma-sign/
 
+**Laporan:** [docs/13523034_13523064_13523076_Tugas3_IF4020.pdf](docs/13523034_13523064_13523076_Tugas3_IF4020.pdf)
+
+## Tech stack
+
+| Bagian | Teknologi |
+| --- | --- |
+| Bahasa | Python 3.10+ (image Docker memakai Python 3.12) |
+| Kriptografi | [cryptography](https://cryptography.io/) 50.0.2 (backend OpenSSL) |
+| CLI | `argparse` (pustaka standar Python) |
+| Pengujian | pytest 9.2.0 |
+| Container | Docker, Docker Compose, GitHub Container Registry (GHCR) |
+| CI/CD | GitLab CI dengan GitLab Runner (shell Bash) |
+| Dokumentasi API | MkDocs + Material for MkDocs, GitHub Pages |
+
 ## Daftar isi
 
+- [Tech stack](#tech-stack)
 - [Instalasi](#instalasi)
+- [Menjalankan di runner CI/CD](#menjalankan-di-runner-cicd)
 - [Penggunaan CLI](#penggunaan-cli)
 - [Status dan exit code](#status-dan-exit-code)
 - [Format berkas](#format-berkas)
@@ -63,6 +79,37 @@ docker push ghcr.io/narrr21/uma-sign:latest
 ```
 
 Baris terakhir keluaran `docker push` memuat digest image, misalnya `latest: digest: sha256:573b5529... size: 2407`.
+
+## Menjalankan di runner CI/CD
+
+Contoh konfigurasi GitLab CI ada di [ci/gitlab-ci.yml](ci/gitlab-ci.yml). Salin isinya ke `.gitlab-ci.yml` di repositori yang ingin ditandatangani. Pipeline ini yang dipakai pada pengujian integrasi C01–C05 (repositori [cicduma](https://gitlab-edu.itb.ac.id/13523076/cicduma)).
+
+Kebutuhan runner: GitLab Runner dengan shell Bash, Docker, `git`, dan `openssl`, serta tag `kripto` (ubah di bagian `default.tags` jika tag runner berbeda).
+
+Variabel CI/CD yang harus diisi di **Settings → CI/CD → Variables** (tandai Protected dan Masked):
+
+| Variabel | Isi |
+| --- | --- |
+| `GHCR_USER` | Username GitHub untuk login ke GHCR |
+| `GHCR_TOKEN` | Personal access token dengan scope `read:packages` |
+| `UMA_SIGN_PRIVATE_KEY` | Kunci privat penandatangan (PEM) yang di-encode Base64 |
+
+Kunci privat dibuat sekali di luar pipeline, lalu di-encode:
+
+```bash
+docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/data" ghcr.io/narrr21/uma-sign:latest keygen --algorithm ed25519 --out_prefix /data/release
+base64 -w0 release.key.pem   # salin hasilnya ke UMA_SIGN_PRIVATE_KEY
+```
+
+Alur job `sign-and-verify` (hanya pada branch terproteksi):
+
+1. `docker login` ke GHCR, lalu `docker pull` image `${UMA_SIGN_IMAGE}:${UMA_SIGN_IMAGE_TAG}`.
+2. Setiap perintah dijalankan lewat `docker run --rm --user "$(id -u):$(id -g)"` dengan direktori proyek di-mount ke `/data`.
+3. `trust add`: kunci publik diturunkan dari kunci privat dan didaftarkan untuk paket `$UMA_PACKAGE`.
+4. `sign`: `git archive` membuat `release.tar` dari commit, lalu ditandatangani dengan versi `$CI_COMMIT_SHA`. Kunci privat langsung dihapus.
+5. `verify --json`: exit code 0 melanjutkan pipeline, exit code 1 atau 2 menggagalkan job sehingga tahap publikasi tidak berjalan.
+
+Hasilnya (`signature.bundle.json`, `keys/trust-store.json`, `keys/release.pub.pem`) disimpan sebagai artifacts job. Untuk mengunci image ke versi tertentu, ganti `UMA_SIGN_IMAGE_TAG` atau pakai digest `ghcr.io/narrr21/uma-sign@sha256:573b5529c948f09a18da92256496c5a3e9d0ac701a4407edb1c0cd012f625700`.
 
 ## Penggunaan CLI
 
@@ -273,8 +320,10 @@ internal/bundle/           model, parser, dan I/O bundle
 internal/trust/            trust store: model, validasi kunci, I/O, operasi, CLI trust
 internal/verifier/         pipeline verifikasi dan CLI verify
 internal/common/           parser JSON strict dan Base64 strict
-test/                      unit test dan tes skenario
-docs/                      sumber situs dokumentasi API
+test/                      unit test, tes skenario, skrip benchmark
+test/hasil/                hasil pengujian skenario dan benchmark, termasuk kunci uji
+ci/gitlab-ci.yml           contoh konfigurasi pipeline GitLab CI
+docs/                      laporan (PDF) dan sumber situs dokumentasi API
 ```
 
 ## Pengujian
@@ -293,6 +342,14 @@ Dua skrip lain di `test/` membuat bukti pengujian untuk laporan:
 python test/report_scenarios.py --out hasil_skenario --zip   # keluaran CLI tiap kasus U01–U14
 python test/benchmark.py --out hasil_benchmark              # waktu sign dan verify
 ```
+
+Hasil yang dipakai di laporan tersimpan di [test/hasil/](test/hasil/):
+
+- `skenario/`: satu folder per kasus U01–U14 (153 kasus) berisi artefak, bundle, manifest, trust store, dan `hasil.json` (perintah, exit code, keluaran verify). Ringkasannya ada di `skenario/README.md` dan `skenario/ringkasan.csv`.
+- `benchmark/`: `hasil_benchmark.md`, `ringkasan.csv`, data mentah `raw.csv`, dan `lingkungan.json`.
+- `skenario/keys/` dan `benchmark/keys/`: pasangan kunci yang **khusus dibuat untuk pengujian**. Kunci ini tidak dipakai di layanan nyata.
+
+Pengujian integrasi C01–C05 (skrip PowerShell dan log) ada di repositori cicduma dan [TestCI.zip](https://drive.google.com/file/d/1UcZMMeMSbU8qAYuyUOk_dH4wF1rZunBT/view?usp=sharing).
 
 ## Dokumentasi API
 

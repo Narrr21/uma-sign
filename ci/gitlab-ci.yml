@@ -1,0 +1,106 @@
+default:
+  tags:
+    - kripto
+
+stages:
+  - test
+  - release
+
+variables:
+  UMA_SIGN_IMAGE: ghcr.io/narrr21/uma-sign
+  UMA_SIGN_IMAGE_TAG: latest
+  UMA_PACKAGE: pkg
+
+.uma-sign:
+  before_script:
+    - |
+      set -eu
+      : "${GHCR_USER:?Set GHCR_USER in CI/CD variables}"
+      : "${GHCR_TOKEN:?Set GHCR_TOKEN in CI/CD variables}"
+
+      printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+      docker pull "${UMA_SIGN_IMAGE}:${UMA_SIGN_IMAGE_TAG}"
+  after_script:
+    - docker logout ghcr.io || true
+
+unit-tests:
+  stage: test
+  image: node:22-alpine
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+    policy: pull-push
+  script:
+    - npm ci --cache .npm --prefer-offline
+    - npm test
+
+sign-and-verify:
+  stage: release
+  extends: .uma-sign
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+  script:
+    - |
+      set -eu
+      : "${UMA_PACKAGE:?Set UMA_PACKAGE}"
+      : "${UMA_SIGN_PRIVATE_KEY:?Set UMA_SIGN_PRIVATE_KEY to the Base64-encoded private key}"
+
+      # pwd -P: path Unix aktual dari Bash runner (CI_PROJECT_DIR bisa berisi path Windows).
+      PROJECT_DIR="$(pwd -P)"
+
+      uma() {
+        docker run --rm \
+          --user "$(id -u):$(id -g)" \
+          --mount "type=bind,source=${PROJECT_DIR},target=/data" \
+          "${UMA_SIGN_IMAGE}:${UMA_SIGN_IMAGE_TAG}" \
+          "$@"
+      }
+
+      # Mulai dari kondisi bersih; private key selalu dihapus saat job selesai.
+      rm -rf keys release.tar signature.bundle.json
+      mkdir -p keys
+      trap 'rm -f keys/private.pem' EXIT
+
+      echo "==> [1/3] trust add"
+      printf '%s' "$UMA_SIGN_PRIVATE_KEY" | base64 --decode > keys/private.pem
+      chmod 600 keys/private.pem
+      openssl pkey -in keys/private.pem -pubout -out keys/release.pub.pem
+      uma trust add \
+        --key /data/keys/release.pub.pem \
+        --package "$UMA_PACKAGE" \
+        --store /data/keys/trust-store.json
+
+      echo "==> [2/3] sign"
+      git archive --format=tar --output=release.tar "$CI_COMMIT_SHA"
+      uma sign \
+        --file /data/release.tar \
+        --package "$UMA_PACKAGE" \
+        --version "$CI_COMMIT_SHA" \
+        --key /data/keys/private.pem \
+        --out /data/signature.bundle.json
+      # Private key tidak dibutuhkan lagi setelah proses sign.
+      rm -f keys/private.pem
+
+      echo "==> [3/3] verify"
+      # Bangun ulang release.tar dari commit yang sama, lalu cocokkan dengan bundle.
+      # Nama file harus tetap release.tar karena nama artefak dicatat di manifest.
+      rm -f release.tar
+      git archive --format=tar --output=release.tar "$CI_COMMIT_SHA"
+      test -s signature.bundle.json
+      test -s keys/trust-store.json
+      uma verify \
+        --file /data/release.tar \
+        --bundle /data/signature.bundle.json \
+        --trust-store /data/keys/trust-store.json \
+        --package "$UMA_PACKAGE" \
+        --version "$CI_COMMIT_SHA" \
+        --json
+  artifacts:
+    paths:
+      - signature.bundle.json
+      - keys/trust-store.json
+      - keys/release.pub.pem
+    expire_in: 1 day

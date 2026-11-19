@@ -1,0 +1,39 @@
+{
+  "skenario": "U05",
+  "deskripsi": "Ubah satu bit tanda tangan, panjang dan Base64 tetap valid.",
+  "variasi": "tengah",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "INVALID_SIGNATURE",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "INVALID_SIGNATURE",
+    "message": "signature does not match the manifest",
+    "algorithm": "rsa-pss-sha256",
+    "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U05/rsa-pss-sha256__tengah/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U05/rsa-pss-sha256__tengah/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U05/rsa-pss-sha256__tengah/app-1.0.0.tar.gz --bundle U05/rsa-pss-sha256__tengah/bundle.json --trust-store U05/rsa-pss-sha256__tengah/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "INVALID_SIGNATURE",
+        "message": "signature does not match the manifest",
+        "algorithm": "rsa-pss-sha256",
+        "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "skenario": "U11",
+  "deskripsi": "String algorithm yang tidak didukung pada manifest.",
+  "variasi": "algorithm_ED25519",
+  "algoritma": "rsa-pss-sha256",
+  "status_diharapkan": "UNSUPPORTED_ALGORITHM",
+  "exit_diharapkan": 1,
+  "exit": 1,
+  "keluaran_verify": {
+    "valid": false,
+    "status": "UNSUPPORTED_ALGORITHM",
+    "message": "unsupported algorithm: ED25519",
+    "algorithm": "ED25519",
+    "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+    "package": "app",
+    "version": "1.0.0"
+  },
+  "hasil": "LULUS",
+  "perintah": [
+    {
+      "perintah": "umasign sign --file U11/rsa-pss-sha256__algorithm_ED25519/app-1.0.0.tar.gz --package app --version 1.0.0 --key keys/publisher/rsa-pss-sha256.key.pem --out U11/rsa-pss-sha256__algorithm_ED25519/bundle.json",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "perintah": "umasign verify --file U11/rsa-pss-sha256__algorithm_ED25519/app-1.0.0.tar.gz --bundle U11/rsa-pss-sha256__algorithm_ED25519/bundle.json --trust-store U11/rsa-pss-sha256__algorithm_ED25519/trust.json --package app --version 1.0.0 --json",
+      "exit": 1,
+      "keluaran": {
+        "valid": false,
+        "status": "UNSUPPORTED_ALGORITHM",
+        "message": "unsupported algorithm: ED25519",
+        "algorithm": "ED25519",
+        "keyid": "9c103e5be3908b8d371fa2a0edcfe192e4343888913bfca8ccd04d37dabddab8",
+        "package": "app",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}
