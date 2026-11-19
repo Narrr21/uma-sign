@@ -4,7 +4,7 @@
 
 Tiga profil algoritma didukung: **RSA-PSS 3072 / SHA-256**, **ECDSA P-256 / SHA-256**, dan **Ed25519**.
 
-**Dokumentasi API:** https://narrr21.github.io/uma-sign/
+**Dokumentasi API:** https://rafizan46.github.io/uma-sign/
 
 ## Daftar isi
 
@@ -296,7 +296,9 @@ python test/benchmark.py --out hasil_benchmark              # waktu sign dan ver
 
 ## Dokumentasi API
 
-Dokumentasi API modul internal di-*host* di **GitHub Pages**: https://narrr21.github.io/uma-sign/
+Dokumentasi API modul internal di-*host* di **GitHub Pages**: https://rafizan46.github.io/uma-sign/
+
+Situs dibangun dan di-*deploy* dari fork [rafizan46/uma-sign](https://github.com/rafizan46/uma-sign) dengan workflow yang sama.
 
 Isinya mencakup deskripsi tiap modul, parameter masukan dan keluaran beserta tipe datanya, error yang dilempar, dan contoh penggunaan.
 
@@ -317,7 +319,7 @@ mkdocs serve          # buka http://127.0.0.1:8000
 mkdocs build --strict # hasil di folder site/
 ```
 
-Aktifkan sekali di GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+Aktifkan sekali di repositori yang menjalankan workflow: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Jika `docs/` berubah, lakukan **Sync fork** pada fork lalu jalankan workflow `docs` lagi.
 
 ## Pustaka yang digunakan
 
